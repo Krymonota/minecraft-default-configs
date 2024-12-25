@@ -1,11 +1,11 @@
 name: "Extract Minecraft proxy configs"
 
 on:
-   workflow_dispatch:
+  workflow_dispatch:
     inputs:
-        proxy_type:
-            description: 'Minecraft proxy type'
-            required: true
+      proxy_type:
+        description: 'Minecraft proxy type'
+        required: true
 
 jobs:
   generate-proxy-configs:
