@@ -4,13 +4,14 @@ on:
    workflow_dispatch:
     inputs:
         proxy_type:
-            description: 'Proxy type'
+            description: 'Minecraft proxy type'
             required: true
+
 jobs:
   generate-proxy-configs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Check out repository
         uses: actions/checkout@v4
   
       - name: Set up Docker Buildx
@@ -54,9 +55,14 @@ jobs:
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
-          git add ${{ github.event.inputs.proxy_type }}
-          git commit -m "Add configuration files for Proxy type ${{ github.event.inputs.proxy_type }}"
-          git push origin HEAD:${{ github.event.inputs.proxy_type }}
+          if git diff --quiet; then
+            git add ${{ github.event.inputs.proxy_type }}
+            git commit -m "Update configuration files of Minecraft proxy ${{ github.event.inputs.proxy_type }}"
+            git push origin HEAD:${{ github.event.inputs.proxy_type }}
+            gh pr create --title "Update configuration files of Minecraft proxy ${{ github.event.inputs.proxy_type }}" --body "This PR updates the configuration files of the Minecraft proxy ${{ github.event.inputs.proxy_type }}." --head HEAD:${{ github.event.inputs.proxy_type }} --base main --reviewer Krymonota
+          else
+            echo "No changes to commit."
+          fi
 
       - name: Clear away Minecraft proxy
         run: docker rm minecraft-proxy
