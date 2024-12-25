@@ -1,4 +1,4 @@
-name: "Extract minecraft configs"
+name: "Extract Minecraft server configs"
 
 on:
    workflow_dispatch:
@@ -7,19 +7,19 @@ on:
             description: 'Paper Minecraft version'
             required: true
 jobs:
-  generate-minecraft-configs:
+  generate-server-configs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
   
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
   
       - name: Pull itzg/minecraft-server image
         run: docker pull itzg/minecraft-server
   
-      - name: Start Minecraft Server
+      - name: Start Minecraft server
         run: |
             docker run -d \
             -e EULA=TRUE \
@@ -28,7 +28,7 @@ jobs:
             -p 25565:25565 \
             --name minecraft-server \
             itzg/minecraft-server
-            
+
       - name: Wait for container to become healthy
         run: |
               while [[ "$(docker inspect -f '{{.State.Health.Status}}' minecraft-server)" != "healthy" ]]; do
@@ -39,7 +39,7 @@ jobs:
                 sleep 5
               done
 
-      - name: Stop Minecraft Server
+      - name: Stop Minecraft server
         run: docker stop minecraft-server
 
       - name: Copy configuration files
@@ -60,5 +60,5 @@ jobs:
           git commit -m "Add configuration files for Minecraft version ${{ github.event.inputs.paper_version }}"
           git push origin HEAD:${{ github.event.inputs.paper_version }}
 
-      - name: Clear away Minecraft Server
+      - name: Clear away Minecraft server
         run: docker rm minecraft-server
