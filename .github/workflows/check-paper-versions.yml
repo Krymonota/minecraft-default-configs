@@ -31,8 +31,12 @@ jobs:
               fi
             fi
           done
-          echo "Found new versions: $new_versions"
-          echo "new_versions=$new_versions" >> $GITHUB_ENV
+          if [ -n "$new_versions" ]; then
+            echo "Found new versions: $new_versions"
+            echo "new_versions=$new_versions" >> $GITHUB_ENV
+          else
+            echo "No new versions found"
+          fi
 
       - name: Trigger generate-server-configs job
         if: env.new_versions != ''
