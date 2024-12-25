@@ -23,7 +23,11 @@ jobs:
           new_versions=""
           for version in $(cat current_versions.txt); do
             if [ ! -d "$version" ]; then
-              new_versions="$new_versions $version"
+              if [ -z "$new_versions" ]; then
+                new_versions="$version"
+              else
+                new_versions="$new_versions,$version"
+              fi
             fi
           done
           echo "Found new versions: $new_versions"
@@ -34,7 +38,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            new_versions = process.env.new_versions.split(/\s+/)
+            new_versions = process.env.new_versions.split(',')
             for (const version of new_versions) {
               console.log(`Triggering generate-server-configs job for version ${version}`)
               github.rest.actions.createWorkflowDispatch({
