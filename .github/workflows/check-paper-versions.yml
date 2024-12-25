@@ -26,6 +26,7 @@ jobs:
               new_versions="$new_versions $version"
             fi
           done
+          echo "Found new versions: $new_versions"
           echo "new_versions=$new_versions" >> $GITHUB_ENV
 
       - name: Trigger generate-server-configs job
