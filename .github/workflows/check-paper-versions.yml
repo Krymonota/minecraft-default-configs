@@ -62,7 +62,8 @@ jobs:
                 workflow_id: 'extract-configs-server.yml',
                 ref: context.ref,
                 inputs: {
-                  paper_version: version
+                  paper_version: version,
+                  paper_channel: build.channel
                 }
               })
             }
