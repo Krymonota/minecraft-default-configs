@@ -26,6 +26,7 @@ jobs:
             -e EULA=TRUE \
             -e TYPE=PAPER \
             -e VERSION=${{ github.event.inputs.paper_version }} \
+            -e PAPER_CHANNEL=experimental \
             -p 25565:25565 \
             --name minecraft-server \
             itzg/minecraft-server
