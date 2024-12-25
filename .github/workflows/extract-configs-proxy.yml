@@ -13,13 +13,13 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-  
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-  
+
       - name: Pull itzg/mc-proxy image
         run: docker pull itzg/mc-proxy
-  
+
       - name: Start Minecraft proxy
         run: |
             docker run -d \
