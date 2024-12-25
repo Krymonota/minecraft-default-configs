@@ -22,7 +22,8 @@ jobs:
         run: |
           new_versions=""
           for version in $(cat current_versions.txt); do
-            if [ ! -d "$version" ]; then
+            # mc-image-helper allows only specific versions: https://github.com/itzg/mc-image-helper/blob/81c9e1037c551ae8db98468dbeeeb370da80f505/src/main/java/me/itzg/helpers/paper/InstallPaperCommand.java#L67
+            if [[ ! -d "$version" && "$version" =~ ^\d+\.\d+(\.\d+)?$ ]]; then
               if [ -z "$new_versions" ]; then
                 new_versions="$version"
               else
