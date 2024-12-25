@@ -21,7 +21,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
   
       - name: Pull itzg/minecraft-server image
-        run: docker pull itzg/minecraft-server
+        run: docker pull itzg/minecraft-server:java8
   
       - name: Start Minecraft server
         run: |
@@ -32,7 +32,7 @@ jobs:
             -e PAPER_CHANNEL=${{ github.event.inputs.paper_channel}} \
             -p 25565:25565 \
             --name minecraft-server \
-            itzg/minecraft-server
+            itzg/minecraft-server:java8
 
       - name: Wait for container to become healthy
         run: |
