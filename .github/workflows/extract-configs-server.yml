@@ -64,8 +64,8 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
           git checkout -b ${{ github.event.inputs.paper_version }}
+          git add ${{ github.event.inputs.paper_version }}
           if git diff --quiet; then
-            git add ${{ github.event.inputs.paper_version }}
             git commit -m "Add configuration files for Paper Minecraft version ${{ github.event.inputs.paper_version }}"
             git push origin HEAD:${{ github.event.inputs.paper_version }}
             # gh pr create --title "Add configuration files for Paper Minecraft version ${{ github.event.inputs.paper_version }}" --body "This PR adds the configuration files for Paper Minecraft version ${{ github.event.inputs.paper_version }}." --head HEAD:${{ github.event.inputs.paper_version }} --base main --reviewer Krymonota
