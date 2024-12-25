@@ -43,10 +43,20 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            new_versions = process.env.new_versions.split(',')
+            const new_versions = process.env.new_versions.split(',');
             for (const version of new_versions) {
-              console.log(`Triggering generate-server-configs job for version ${version}`)
-              github.rest.actions.createWorkflowDispatch({
+              const build_info = await fetch('https://api.papermc.io/v2/projects/paper/versions/' + version + '/builds', {
+                headers: {
+                  'accept': 'application/json'
+                }
+              }).then(response => response.json());
+              const build = build_info.builds.find(build => build.channel === 'default') || build_info.builds.find(build => build.channel === 'experimental');
+              if (!build) {
+                  console.log(`No default or experimental build found for version ${version}`);
+                  continue;
+              }
+              console.log(`Triggering generate-server-configs job for version ${version} on channel ${build.channel}`);
+              await github.rest.actions.createWorkflowDispatch({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 workflow_id: 'extract-configs-server.yml',

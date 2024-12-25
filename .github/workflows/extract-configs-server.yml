@@ -6,6 +6,9 @@ on:
       paper_version:
         description: 'Paper Minecraft server version'
         required: true
+      paper_channel:
+        description: 'Paper Minecraft server channel'
+        required: true
 
 jobs:
   generate-server-configs:
@@ -26,7 +29,7 @@ jobs:
             -e EULA=TRUE \
             -e TYPE=PAPER \
             -e VERSION=${{ github.event.inputs.paper_version }} \
-            -e PAPER_CHANNEL=experimental \
+            -e PAPER_CHANNEL=${{ github.event.inputs.paper_channel}} \
             -p 25565:25565 \
             --name minecraft-server \
             itzg/minecraft-server
