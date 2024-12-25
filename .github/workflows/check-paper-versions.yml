@@ -36,7 +36,7 @@ jobs:
           script: |
             new_versions = process.env.new_versions.split(/\s+/)
             for (const version of new_versions) {
-              echo(`Triggering generate-server-configs job for version ${version}`)
+              console.log(`Triggering generate-server-configs job for version ${version}`)
               github.rest.actions.createWorkflowDispatch({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
