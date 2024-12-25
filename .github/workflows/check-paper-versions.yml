@@ -1,9 +1,6 @@
 name: "Check Minecraft Paper server versions"
 
 on:
-  push:
-    branches:
-      - feature/update-workflows
   schedule:
     - cron: "0 8 * * *" # Run every day in the morning
 
