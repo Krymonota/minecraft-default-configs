@@ -64,9 +64,13 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
           git fetch --all
-          git checkout -b ${{ github.event.inputs.paper_version }}
+          if git show-ref --verify --quiet refs/heads/${{ github.event.inputs.paper_version }}; then
+            git checkout ${{ github.event.inputs.paper_version }}
+          else
+            git checkout -b ${{ github.event.inputs.paper_version }}
+          fi
           git add ${{ github.event.inputs.paper_version }}
-          if git diff --quiet; then
+          if git diff --cached --quiet; then
             git commit -m "Add configuration files for Paper Minecraft version ${{ github.event.inputs.paper_version }}"
             git push origin HEAD:${{ github.event.inputs.paper_version }}
             # gh pr create --title "Add configuration files for Paper Minecraft version ${{ github.event.inputs.paper_version }}" --body "This PR adds the configuration files for Paper Minecraft version ${{ github.event.inputs.paper_version }}." --head HEAD:${{ github.event.inputs.paper_version }} --base main --reviewer Krymonota
