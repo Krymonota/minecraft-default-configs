@@ -34,6 +34,8 @@ jobs:
               while [[ "$(docker inspect -f '{{.State.Health.Status}}' minecraft-proxy)" != "healthy" ]]; do
                 if [[ "$(docker inspect -f '{{.State.Status}}' minecraft-proxy)" == "exited" ]]; then
                   echo "Container has stopped. Aborting workflow."
+                  docker ps -a
+                  docker logs minecraft-proxy
                   exit 1
                 fi
                 sleep 5
