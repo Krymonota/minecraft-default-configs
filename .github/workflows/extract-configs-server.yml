@@ -1,11 +1,12 @@
 name: "Extract Minecraft server configs"
 
 on:
-   workflow_dispatch:
+  workflow_dispatch:
     inputs:
-        paper_version:
-            description: 'Paper Minecraft version'
-            required: true
+      paper_version:
+        description: 'Paper Minecraft server version'
+        required: true
+
 jobs:
   generate-server-configs:
     runs-on: ubuntu-latest
