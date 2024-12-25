@@ -1,7 +1,11 @@
 name: "Extract Minecraft proxy configs"
 
 on:
-   workflow_dispatch:
+  push:
+    branches:
+      - 'feature/update-workflows'
+
+  workflow_dispatch:
     inputs:
         proxy_type:
             description: 'Minecraft proxy type'
@@ -10,6 +14,7 @@ on:
 jobs:
   generate-proxy-configs:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4

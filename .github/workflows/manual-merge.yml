@@ -1,10 +1,15 @@
 name: Manual Merge All Branches into Main
 
 on:
+  push:
+    branches:
+      - 'feature/update-workflows'
+
   workflow_dispatch:
 
 jobs:
   merge:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
 
     steps:
