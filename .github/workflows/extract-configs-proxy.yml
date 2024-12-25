@@ -27,7 +27,7 @@ jobs:
             -e TYPE=${{ github.event.inputs.proxy_type }} \
             -p 25565:25577 \
             --name minecraft-proxy \
-            itzg/bungeecord
+            itzg/mc-proxy
 
       - name: Wait for container to become healthy
         run: |
